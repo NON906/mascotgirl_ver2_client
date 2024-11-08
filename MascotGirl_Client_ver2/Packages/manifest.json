@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.hecomi.ulipsync": "3.1.4",
     "com.unity.collab-proxy": "2.5.2",
     "com.unity.feature.development": "1.0.1",
     "com.unity.inputsystem": "1.7.0",
@@ -46,6 +47,13 @@
       "url": "https://unitynuget-registry.azurewebsites.net",
       "scopes": [
         "org.nuget"
+      ]
+    },
+    {
+      "name": "hecomi",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "com.hecomi"
       ]
     }
   ]

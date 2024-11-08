@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 123514439}
   - component: {fileID: 123514438}
   - component: {fileID: 123514441}
+  - component: {fileID: 123514442}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -376,6 +377,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetCamera: {fileID: 1113389290}
+--- !u!114 &123514442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123514436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d2602fecd19707458c3aa00b85beb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &135740269
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,6 +982,7 @@ GameObject:
   - component: {fileID: 265114528}
   - component: {fileID: 265114527}
   - component: {fileID: 265114529}
+  - component: {fileID: 265114530}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -1101,6 +1115,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetAudioSource: {fileID: 265114527}
   MessageText: {fileID: 2098136181}
+--- !u!114 &265114530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265114526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87560e04aa74c7a41acb9c87051c3b02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: d0622910165464ec98bf667e4f571218, type: 2}
+  onLipSyncUpdate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 123514442}
+        m_TargetAssemblyTypeName: MascotGirlClient.CharaImage, Assembly-CSharp
+        m_MethodName: OnLipSyncUpdate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  outputSoundGain: 1
+  audioSourceProxy: {fileID: 0}
 --- !u!1 &280396822
 GameObject:
   m_ObjectHideFlags: 0
