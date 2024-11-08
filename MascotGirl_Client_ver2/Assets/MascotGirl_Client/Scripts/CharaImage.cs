@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using uLipSync;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace MascotGirlClient
         int eyeIndex_ = 0;
         int mouthIndex_ = 0;
         bool isFinishedStart_ = false;
+        Coroutine changeCoroutine_;
 
         IEnumerator Start()
         {
@@ -90,6 +92,8 @@ namespace MascotGirlClient
             }
 
             isFinishedStart_ = true;
+
+            Change("normal", "normal");
         }
 
         void Update()
@@ -104,6 +108,11 @@ namespace MascotGirlClient
 
         public void OnLipSyncUpdate(LipSyncInfo info)
         {
+            if (!isFinishedStart_)
+            {
+                return;
+            }
+
             if (info.volume >= Mathf.Epsilon)
             {
                 switch (info.phoneme)
@@ -131,6 +140,66 @@ namespace MascotGirlClient
             else
             {
                 mouthIndex_ = 0;
+            }
+        }
+
+        public void Change(string eyebrow, string eye)
+        {
+            if (!isFinishedStart_)
+            {
+                return;
+            }
+
+            for (int loop = 0; loop < eyebrowOptions_.Length; loop++)
+            {
+                if (eyebrowOptions_[loop] == eyebrow)
+                {
+                    eyebrowIndex_ = loop;
+                }
+            }
+            for (int loop = 0; loop < eyeOptions_.Length; loop++)
+            {
+                if (eyeOptions_[loop] == eye)
+                {
+                    eyeIndex_ = loop;
+                }
+            }
+
+            if (changeCoroutine_ != null)
+            {
+                StopCoroutine(changeCoroutine_);
+            }
+            changeCoroutine_ = StartCoroutine(blink(eyeIndex_));
+        }
+
+        IEnumerator blink(int startEyeIndex)
+        {
+            float startTime = Time.time;
+            float normalTime = UnityEngine.Random.Range(4f, 6f);
+            float closeTime = 0.08f;
+            float halfTime = 0.08f;
+
+            while (eyeOptions_[startEyeIndex] == "normal" || eyeOptions_[startEyeIndex] == "surprized")
+            {
+                float time = Time.time - startTime;
+                if (time < normalTime)
+                {
+                    eyeIndex_ = startEyeIndex;
+                }
+                else if (time < normalTime + closeTime)
+                {
+                    eyeIndex_ = 2;
+                }
+                else if (time < normalTime + closeTime + halfTime)
+                {
+                    eyeIndex_ = 1;
+                }
+                else
+                {
+                    eyeIndex_ = startEyeIndex;
+                    startTime = Time.time;
+                }
+                yield return null;
             }
         }
     }

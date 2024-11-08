@@ -106,6 +106,7 @@ namespace MascotGirlClient
         public void Clear()
         {
             voices_.Clear();
+            playIndex_ = -1;
             TargetAudioSource.Stop();
             if (addCoroutineObj_ != null)
             {

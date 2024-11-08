@@ -112,7 +112,7 @@ namespace MascotGirlClient
             voiceManager.Clear();
             yield return voiceManager.AddCoroutine(response.message);
 
-            // TODO: •\î•ÏX
+            FindObjectOfType<CharaImage>().Change(response.eyebrow, response.eyes);
         }
     }
 }
