@@ -9,13 +9,13 @@ namespace MascotGirlClient
 {
     public class ChatControl : MonoBehaviour
     {
-        List<SendMessageContext> messages_ = new List<SendMessageContext>();
+        List<SendMessageContent> messages_ = new List<SendMessageContent>();
 
         [TextArea]
         public string SystemMessage = "";
 
         [Serializable]
-        class SendMessageContext
+        class SendMessageContent
         {
             public string role;
             public string content;
@@ -24,7 +24,7 @@ namespace MascotGirlClient
         [Serializable]
         class SendMessageRequest
         {
-            public List<SendMessageContext> messages;
+            public List<SendMessageContent> messages;
         }
 
         [Serializable]
@@ -46,9 +46,9 @@ namespace MascotGirlClient
         {
             if (messages_.Count <= 0)
             {
-                messages_.Add(new SendMessageContext { role = "system", content = SystemMessage });
+                messages_.Add(new SendMessageContent { role = "system", content = SystemMessage });
             }
-            messages_.Add(new SendMessageContext { role = "user", content = message });
+            messages_.Add(new SendMessageContent { role = "user", content = message });
 
             var request = new SendMessageRequest();
             request.messages = messages_;
@@ -106,14 +106,13 @@ namespace MascotGirlClient
 
             } while (!response.is_finished);
 
-            messages_.Add(new SendMessageContext { role = "assistant", content = response.message });
+            messages_.Add(new SendMessageContent { role = "assistant", content = response.message });
 
-            // TODO: 音声再生
+            var voiceManager = FindObjectOfType<VoiceManager>();
+            voiceManager.Clear();
+            yield return voiceManager.AddCoroutine(response.message);
 
             // TODO: 表情変更
-
-            // TODO: メッセージ変更
-            UnityEngine.Debug.Log(response.message);
         }
     }
 }

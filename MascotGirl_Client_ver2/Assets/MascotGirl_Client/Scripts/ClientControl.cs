@@ -29,6 +29,22 @@ namespace MascotGirlClient
             }
         }
 
+        void Start()
+        {
+            if (!startLocal_)
+            {
+                string httpUrl = PlayerPrefs.GetString("mascotgirl_httpUrl", "");
+                if (!string.IsNullOrEmpty(httpUrl))
+                {
+                    if (httpUrl[httpUrl.Length - 1] == '/')
+                    {
+                        httpUrl = httpUrl.Remove(httpUrl.Length - 1);
+                    }
+                    HttpUrl = httpUrl;
+                }
+            }
+        }
+
         public void StartSendMessage(string message, bool isVoiceInput)
         {
             StartCoroutine(sendMessage(message, isVoiceInput));

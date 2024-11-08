@@ -968,6 +968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 265114528}
   - component: {fileID: 265114527}
+  - component: {fileID: 265114529}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -986,10 +987,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1086,6 +1087,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &265114529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265114526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9928535f6b52201459391b49909e218d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetAudioSource: {fileID: 265114527}
+  MessageText: {fileID: 2098136181}
 --- !u!1 &280396822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,7 +2625,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2115763746}
           m_TargetAssemblyTypeName: MascotGirlClient.ClientControlUI, Assembly-CSharp
           m_MethodName: OnClickBackPanel
           m_Mode: 1
