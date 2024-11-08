@@ -1,0 +1,9 @@
+.DS_Store
+/MascotGirl_Client_ver2/Library/
+/MascotGirl_Client_ver2/Logs/
+/MascotGirl_Client_ver2/obj/
+/MascotGirl_Client_ver2/.vs/
+/MascotGirl_Client_ver2/Temp/
+/MascotGirl_Client_ver2/*.csproj
+/MascotGirl_Client_ver2/Assets/MascotGirl_Client/Fonts/mplus-1p-medium SDF.asset
+/MascotGirl_Client_ver2/Assets/MascotGirl_Client/Fonts/mplus-1p-medium SDF.asset.meta
