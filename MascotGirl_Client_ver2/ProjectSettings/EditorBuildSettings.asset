@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/MascotGirl_Client/Scenes/ReadQRCode.unity
+    guid: 9e0b1af26e0dfbc4393788d18ccd9974
+  - enabled: 1
+    path: Assets/MascotGirl_Client/Scenes/Client.unity
+    guid: 69c7523ecab28474c8d2c23c3e49851c
   m_configObjects: {}

@@ -13,6 +13,11 @@ namespace MascotGirlClient
             StartCoroutine(getImage());
         }
 
+        public void Restart()
+        {
+            StartCoroutine(getImage());
+        }
+
         IEnumerator getImage()
         {
             var client = FindObjectOfType<ClientControl>();

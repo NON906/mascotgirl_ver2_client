@@ -36,8 +36,20 @@ namespace MascotGirlClient
         bool isFinishedStart_ = false;
         Coroutine changeCoroutine_;
 
-        IEnumerator Start()
+        void Start()
         {
+            StartCoroutine(startProcess());
+        }
+
+        public void Restart()
+        {
+            StartCoroutine(startProcess());
+        }
+
+        IEnumerator startProcess()
+        {
+            isFinishedStart_ = false;
+
             var request = new CopyImagesRequest();
             request.path = Path.Combine(Application.temporaryCachePath, "mascotgirl", "chara_images");
 
@@ -71,6 +83,7 @@ namespace MascotGirlClient
                 yield break;
             }
 
+            charaTextures_.Clear();
             foreach (var eyebrow in eyebrowOptions_)
             {
                 foreach (var eye in eyeOptions_)

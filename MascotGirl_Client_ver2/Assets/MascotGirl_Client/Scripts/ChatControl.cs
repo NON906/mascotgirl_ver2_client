@@ -42,6 +42,83 @@ namespace MascotGirlClient
             public bool is_finished;
         }
 
+        [Serializable]
+        class SetSystemMessageRequest
+        {
+            public string message;
+        }
+
+        [Serializable]
+        class GetSystemMessageResponse
+        {
+            public string message;
+        }
+
+        IEnumerator Start()
+        {
+            var client = FindObjectOfType<ClientControl>();
+            var url = client.HttpUrl;
+
+            using var webRecvRequest = new UnityWebRequest(url + "/get_system_message", "GET")
+            {
+                downloadHandler = new DownloadHandlerBuffer(),
+            };
+
+            yield return webRecvRequest.SendWebRequest();
+
+            if (webRecvRequest.result == UnityWebRequest.Result.ConnectionError || webRecvRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                UnityEngine.Debug.LogError(webRecvRequest.error);
+                FindObjectOfType<ClientControlUI>().SystemMessageInputField.text = SystemMessage;
+                yield break;
+            }
+
+            var recvResponseString = webRecvRequest.downloadHandler.text;
+            var response = JsonUtility.FromJson<GetSystemMessageResponse>(recvResponseString);
+
+            SystemMessage = response.message;
+
+            FindObjectOfType<ClientControlUI>().SystemMessageInputField.text = SystemMessage;
+        }
+
+        public void SetSystemMessage(string message)
+        {
+            SystemMessage = message;
+            if (messages_.Count > 0 && messages_[0].role == "system")
+            {
+                messages_[0].content = SystemMessage;
+            }
+
+            StartCoroutine(setSystemMessageCoroutine(message));
+        }
+
+        IEnumerator setSystemMessageCoroutine(string message)
+        {
+            var client = FindObjectOfType<ClientControl>();
+            var url = client.HttpUrl;
+
+            var request = new SetSystemMessageRequest();
+            request.message = message;
+
+            var jsonRequest = JsonUtility.ToJson(request);
+
+            using var webRequest = new UnityWebRequest(url + "/set_system_message", "POST")
+            {
+                uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonRequest)),
+                downloadHandler = new DownloadHandlerBuffer(),
+            };
+
+            webRequest.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                UnityEngine.Debug.LogError(webRequest.error);
+                yield break;
+            }
+        }
+
         public IEnumerator Chat(string url, string message)
         {
             if (messages_.Count <= 0)
@@ -101,8 +178,9 @@ namespace MascotGirlClient
 
                 if (!response.is_finished)
                 {
-                    yield return new WaitForSecondsRealtime(0.05f);
+                    yield return new WaitForSecondsRealtime(0.5f);
                 }
+                UnityEngine.Debug.Log(response.message);
 
             } while (!response.is_finished);
 

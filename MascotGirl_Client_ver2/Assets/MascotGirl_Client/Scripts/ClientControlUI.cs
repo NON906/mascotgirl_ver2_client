@@ -18,6 +18,7 @@ namespace MascotGirlClient
         public Button SendMessageButton;
         public Button VoiceInputButton;
         public Button SettingOpenButton;
+        public TMP_InputField SystemMessageInputField;
 
         public void OnClickBackPanel()
         {
@@ -62,6 +63,16 @@ namespace MascotGirlClient
 
             var drControl = GetComponent<DictationRecognizerControl>();
             drControl.OnStart();
+        }
+
+        public void OnClickedReadQRCodeButton()
+        {
+            PlayerPrefs.DeleteKey("mascotgirl_httpUrl");
+            PlayerPrefs.Save();
+
+            Reconnect.CanConnect = false;
+
+            SceneManager.LoadScene("ReadQRCode");
         }
     }
 }
