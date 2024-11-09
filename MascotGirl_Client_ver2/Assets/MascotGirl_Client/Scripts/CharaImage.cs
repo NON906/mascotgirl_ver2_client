@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 
 namespace MascotGirlClient
 {
+    [RequireComponent(typeof(Renderer))]
     public class CharaImage : MonoBehaviour
     {
         [Serializable]
@@ -38,7 +39,7 @@ namespace MascotGirlClient
         IEnumerator Start()
         {
             var request = new CopyImagesRequest();
-            request.path = Path.Combine(Application.temporaryCachePath, "mascotgirl/chara_images");
+            request.path = Path.Combine(Application.temporaryCachePath, "mascotgirl", "chara_images");
 
             var jsonRequest = JsonUtility.ToJson(request);
 
