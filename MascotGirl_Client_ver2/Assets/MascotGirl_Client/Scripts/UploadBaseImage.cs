@@ -39,6 +39,9 @@ namespace MascotGirlClient
 
         IEnumerator upload(byte[] fileData, string fileName)
         {
+            var clientUI = FindObjectOfType<ClientControlUI>();
+            clientUI.ChangeInteractables(false);
+
             var client = FindObjectOfType<ClientControl>();
             var url = client.HttpUrl;
 
@@ -52,6 +55,7 @@ namespace MascotGirlClient
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 UnityEngine.Debug.LogError(webRequest.error);
+                clientUI.ChangeInteractables(true);
                 yield break;
             }
 
@@ -61,10 +65,12 @@ namespace MascotGirlClient
             if (!response.is_success)
             {
                 UnityEngine.Debug.LogError("Response error.");
+                clientUI.ChangeInteractables(true);
                 yield break;
             }
 
             FindObjectOfType<CharaImage>().Restart();
+            clientUI.ChangeInteractables(true);
         }
     }
 }

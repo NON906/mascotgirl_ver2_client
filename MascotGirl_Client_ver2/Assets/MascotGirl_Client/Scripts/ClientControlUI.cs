@@ -20,6 +20,8 @@ namespace MascotGirlClient
         public Button SettingOpenButton;
         public TMP_InputField SystemMessageInputField;
 
+        List<Selectable> settingUIs_ = new List<Selectable>();
+
         public void OnClickBackPanel()
         {
             ControlParent.SetActive(!ControlParent.activeSelf);
@@ -32,7 +34,10 @@ namespace MascotGirlClient
 
         public void OnClickSettingPanel()
         {
-            SettingParent.SetActive(false);
+            if (SettingOpenButton.interactable)
+            {
+                SettingParent.SetActive(false);
+            }
         }
 
         void Start()
@@ -49,6 +54,27 @@ namespace MascotGirlClient
             SendMessageButton.interactable = val;
             VoiceInputButton.interactable = val;
             SettingOpenButton.interactable = val;
+
+            if (!val)
+            {
+                Selectable[] selectables = SettingParent.GetComponentsInChildren<Selectable>();
+                foreach (var selectable in selectables)
+                {
+                    if (selectable.interactable)
+                    {
+                        settingUIs_.Add(selectable);
+                        selectable.interactable = false;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var selectable in settingUIs_)
+                {
+                    selectable.interactable = true;
+                }
+                settingUIs_.Clear();
+            }
         }
 
         public void OnClickSendMessageButton()
