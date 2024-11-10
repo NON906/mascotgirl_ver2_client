@@ -75,7 +75,6 @@ namespace MascotGirlClient
 
             if (isError)
             {
-                isVoiceInput_ = false;
                 yield break;
             }
 

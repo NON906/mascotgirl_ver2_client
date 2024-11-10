@@ -50,6 +50,7 @@ namespace MascotGirlClient
         {
             isFinishedStart_ = false;
 
+#if UNITY_EDITOR || UNITY_STANDALONE
             var request = new CopyImagesRequest();
             request.path = Path.Combine(Application.temporaryCachePath, "mascotgirl", "chara_images");
 
@@ -104,6 +105,32 @@ namespace MascotGirlClient
                     }
                 }
             }
+#else
+            var client = FindObjectOfType<ClientControl>();
+            var url = client.HttpUrl;
+
+            charaTextures_.Clear();
+            foreach (var eyebrow in eyebrowOptions_)
+            {
+                foreach (var eye in eyeOptions_)
+                {
+                    foreach (var mouth in mouthOptions_)
+                    {
+                        using UnityWebRequest uwr = UnityWebRequestTexture.GetTexture($"{url}/get_image?id={eyebrow}_{eye}_{mouth}");
+
+                        yield return uwr.SendWebRequest();
+
+                        if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
+                        {
+                            UnityEngine.Debug.LogError(uwr.error);
+                            yield break;
+                        }
+
+                        charaTextures_.Add(DownloadHandlerTexture.GetContent(uwr));
+                    }
+                }
+            }
+#endif
 
             isFinishedStart_ = true;
 

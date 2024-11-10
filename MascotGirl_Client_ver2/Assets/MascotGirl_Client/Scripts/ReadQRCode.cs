@@ -29,7 +29,7 @@ namespace MascotGirlClient
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 Application.Quit();
                 return;
@@ -52,9 +52,9 @@ namespace MascotGirlClient
                 var height = webCamTexture_.height;
                 var result = reader.Decode(rawRGB, width, height);
 
-                if (result != null && result.Text != null && result.Text.StartsWith("mascotgirl://"))
+                if (result != null && result.Text != null && result.Text.StartsWith("mascotgirl2://"))
                 {
-                    PlayerPrefs.SetString("mascotgirl_httpUrl", result.Text.Remove(0, "mascotgirl://".Length));
+                    PlayerPrefs.SetString("mascotgirl_httpUrl", result.Text.Remove(0, "mascotgirl2://".Length));
                     PlayerPrefs.Save();
 
                     IsCaptured = true;

@@ -29,7 +29,7 @@ namespace MascotGirlClient
             }
         }
 
-        void Start()
+        void Awake()
         {
             if (!startLocal_)
             {

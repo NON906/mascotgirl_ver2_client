@@ -23,9 +23,9 @@ namespace MascotGirlClient
                 if (uri != null)
                 {
                     string uriStr = uri.Call<string>("toString");
-                    if (uriStr.StartsWith("mascotgirl://"))
+                    if (uriStr.StartsWith("mascotgirl2://"))
                     {
-                        PlayerPrefs.SetString("mascotgirl_httpUrl", uriStr.Remove(0, "mascotgirl://".Length));
+                        PlayerPrefs.SetString("mascotgirl_httpUrl", uriStr.Remove(0, "mascotgirl2://".Length));
                         PlayerPrefs.Save();
 
                         IsRecieved = true;

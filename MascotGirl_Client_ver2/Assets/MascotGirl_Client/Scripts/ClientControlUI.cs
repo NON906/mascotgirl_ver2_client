@@ -111,5 +111,14 @@ namespace MascotGirlClient
         {
             LicenseParent.SetActive(false);
         }
+
+        void Update()
+        {
+            if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                Application.Quit();
+                return;
+            }
+        }
     }
 }
