@@ -19,6 +19,7 @@ namespace MascotGirlClient
         public Button VoiceInputButton;
         public Button SettingOpenButton;
         public TMP_InputField SystemMessageInputField;
+        public GameObject LicenseParent;
 
         List<Selectable> settingUIs_ = new List<Selectable>();
 
@@ -99,6 +100,16 @@ namespace MascotGirlClient
             Reconnect.CanConnect = false;
 
             SceneManager.LoadScene("ReadQRCode");
+        }
+
+        public void OnClickLicenseButton()
+        {
+            LicenseParent.SetActive(true);
+        }
+
+        public void OnClickLicensePanel()
+        {
+            LicenseParent.SetActive(false);
         }
     }
 }
