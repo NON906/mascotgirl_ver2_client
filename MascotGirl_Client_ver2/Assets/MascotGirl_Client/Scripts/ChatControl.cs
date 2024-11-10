@@ -180,7 +180,7 @@ namespace MascotGirlClient
                 {
                     yield return new WaitForSecondsRealtime(0.5f);
                 }
-                UnityEngine.Debug.Log(response.message);
+                //UnityEngine.Debug.Log(response.message);
 
             } while (!response.is_finished);
 
