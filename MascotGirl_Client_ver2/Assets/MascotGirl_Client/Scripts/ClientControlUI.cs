@@ -43,10 +43,7 @@ namespace MascotGirlClient
 
         void Start()
         {
-            if (!SceneManager.GetSceneByName("ReadQRCode").IsValid())
-            {
-                QRCodeButton.gameObject.SetActive(false);
-            }
+            QRCodeButton.gameObject.SetActive(!ClientControl.StartLocal);
         }
 
         public void ChangeInteractables(bool val)

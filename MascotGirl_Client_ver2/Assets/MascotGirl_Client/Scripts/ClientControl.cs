@@ -16,6 +16,13 @@ namespace MascotGirlClient
         public string HttpUrl = HTTP_URL_DEFAULT;
 
         static bool startLocal_ = false;
+        static public bool StartLocal
+        {
+            get
+            {
+                return startLocal_;
+            }
+        }
 
         [CommandLineCommand("start_local")]
         private static void startLocalStatic()
