@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MascotGirlClient
 {
     [RequireComponent(typeof(Renderer))]
-    public class BackgroundQuadSize : MonoBehaviour
+    public class QuadSize : MonoBehaviour
     {
         public Camera TargetCamera;
 
