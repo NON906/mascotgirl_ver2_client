@@ -430,8 +430,8 @@ GameObject:
   - component: {fileID: 123514440}
   - component: {fileID: 123514439}
   - component: {fileID: 123514438}
-  - component: {fileID: 123514441}
   - component: {fileID: 123514442}
+  - component: {fileID: 123514443}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -526,19 +526,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123514436}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &123514441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123514436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d0e45d0a4063754c9cab80c92956e11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetCamera: {fileID: 1113389290}
 --- !u!114 &123514442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +538,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2602fecd19707458c3aa00b85beb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &123514443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123514436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f98e3683bd6a10343a8ae8e65534685c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetCamera: {fileID: 1113389290}
 --- !u!1 &135740269
 GameObject:
   m_ObjectHideFlags: 0
@@ -8996,7 +8996,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1723634574}
   m_HandleRect: {fileID: 1723634573}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

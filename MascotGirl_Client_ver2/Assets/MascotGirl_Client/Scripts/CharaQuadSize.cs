@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MascotGirlClient
 {
     [RequireComponent(typeof(Renderer))]
-    public class QuadSize : MonoBehaviour
+    public class CharaQuadSize : MonoBehaviour
     {
         public Camera TargetCamera;
 
@@ -25,7 +25,7 @@ namespace MascotGirlClient
 
             var scale = Mathf.Tan(TargetCamera.fieldOfView * Mathf.Deg2Rad * 0.5f) * (transform.position - TargetCamera.transform.position).magnitude * 2f;
             var aspect = (float)texture.width / texture.height;
-            if (aspect > TargetCamera.aspect)
+            if (aspect < TargetCamera.aspect)
             {
                 transform.localScale = scale * new Vector3(aspect, 1f, 1f);
             }
