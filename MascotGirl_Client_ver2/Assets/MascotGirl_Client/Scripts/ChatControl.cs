@@ -39,6 +39,7 @@ namespace MascotGirlClient
             public string eyebrow;
             public string eyes;
             public string message;
+            public string full_message;
             public bool is_finished;
         }
 
@@ -184,7 +185,7 @@ namespace MascotGirlClient
 
             } while (!response.is_finished);
 
-            messages_.Add(new SendMessageContent { role = "assistant", content = response.message });
+            messages_.Add(new SendMessageContent { role = "assistant", content = response.full_message });
 
             var voiceManager = FindObjectOfType<VoiceManager>();
             voiceManager.Clear();

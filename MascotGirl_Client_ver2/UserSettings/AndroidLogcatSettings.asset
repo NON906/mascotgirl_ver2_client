@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "R5CT43NGWKH",
     "m_SelectedProcess": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "R5CT43NGWKH",
+        "name": "com.MUMEI.MascotGirl_Client_ver2",
+        "processId": 17370,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -48,6 +48,12 @@
             "deviceId": "R5CT43NGWKH",
             "name": "com.MUMEI.MascotGirl_Client_ver2",
             "processId": 28669,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CT43NGWKH",
+            "name": "com.MUMEI.MascotGirl_Client_ver2",
+            "processId": 17370,
             "exited": false
         }
     ],
