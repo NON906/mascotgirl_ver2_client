@@ -25,11 +25,17 @@ namespace MascotGirlClient
             public bool is_success;
         }
 
+        [Serializable]
+        class GetImagesHashResponse
+        {
+            public string hash;
+        }
+
         static readonly string[] eyebrowOptions_ = new[] { "normal", "troubled", "angry", "happy", "serious" };
         static readonly string[] eyeOptions_ = new[] { "normal", "half", "closed", "happy_closed", "relaxed_closed", "surprized", "wink" };
         static readonly string[] mouthOptions_ = new[] { "normal", "aaa", "iii", "uuu", "eee", "ooo" };
 
-        List<Texture2D> charaTextures_ = new List<Texture2D>();
+        List<Texture> charaTextures_ = new List<Texture>();
         int eyebrowIndex_ = 0;
         int eyeIndex_ = 0;
         int mouthIndex_ = 0;
@@ -38,7 +44,7 @@ namespace MascotGirlClient
 
         void Start()
         {
-            StartCoroutine(startProcess());
+            StartCoroutine(startProcess(true));
         }
 
         public void Restart()
@@ -46,95 +52,149 @@ namespace MascotGirlClient
             StartCoroutine(startProcess());
         }
 
-        IEnumerator startProcess()
+        IEnumerator startProcess(bool isStart = false)
         {
+            while (!isFinishedStart_ && !isStart)
+            {
+                yield return null;
+            }
+
             isFinishedStart_ = false;
 
+            var client = FindObjectOfType<ClientControl>();
+            var url = client.HttpUrl;
+
+            var path = Path.Combine(Application.temporaryCachePath, "mascotgirl", "chara_images");
+
+            string hash = null;
+            if (Directory.Exists(path))
+            {
+                using var hashRequest = new UnityWebRequest(url + "/get_images_hash", "GET")
+                {
+                    downloadHandler = new DownloadHandlerBuffer(),
+                };
+
+                yield return hashRequest.SendWebRequest();
+
+                if (hashRequest.result == UnityWebRequest.Result.ConnectionError || hashRequest.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    UnityEngine.Debug.LogError(hashRequest.error);
+                    yield break;
+                }
+
+                var hashResponseString = hashRequest.downloadHandler.text;
+                var hashResponse = JsonUtility.FromJson<GetImagesHashResponse>(hashResponseString);
+                hash = hashResponse.hash;
+            }
+            else
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            bool loadLocal = true;
+
+            if (hash != PlayerPrefs.GetString("mascotgirl_imagesHash", ""))
+            {
+                PlayerPrefs.SetString("mascotgirl_imagesHash", hash);
+                PlayerPrefs.Save();
+
 #if UNITY_EDITOR || UNITY_STANDALONE
-            var request = new CopyImagesRequest();
-            request.path = Path.Combine(Application.temporaryCachePath, "mascotgirl", "chara_images");
+                var request = new CopyImagesRequest();
+                request.path = path;
 
-            var jsonRequest = JsonUtility.ToJson(request);
+                var jsonRequest = JsonUtility.ToJson(request);
 
-            var client = FindObjectOfType<ClientControl>();
-            var url = client.HttpUrl;
-
-            using var webRequest = new UnityWebRequest(url + "/copy_images", "POST")
-            {
-                uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonRequest)),
-                downloadHandler = new DownloadHandlerBuffer(),
-            };
-
-            webRequest.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
-
-            yield return webRequest.SendWebRequest();
-
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-            {
-                UnityEngine.Debug.LogError(webRequest.error);
-                yield break;
-            }
-
-            var responseString = webRequest.downloadHandler.text;
-            var sendResponse = JsonUtility.FromJson<CopyImagesResponse>(responseString);
-
-            if (!sendResponse.is_success)
-            {
-                UnityEngine.Debug.LogError("Response error.");
-                yield break;
-            }
-
-            charaTextures_.Clear();
-            foreach (var eyebrow in eyebrowOptions_)
-            {
-                foreach (var eye in eyeOptions_)
+                using var webRequest = new UnityWebRequest(url + "/copy_images", "POST")
                 {
-                    foreach (var mouth in mouthOptions_)
-                    {
-                        using UnityWebRequest uwr = UnityWebRequestTexture.GetTexture($"file://{request.path}/{eyebrow}_{eye}_{mouth}.png");
+                    uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonRequest)),
+                    downloadHandler = new DownloadHandlerBuffer(),
+                };
 
-                        yield return uwr.SendWebRequest();
+                webRequest.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
 
-                        if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
-                        {
-                            UnityEngine.Debug.LogError(uwr.error);
-                            yield break;
-                        }
+                yield return webRequest.SendWebRequest();
 
-                        charaTextures_.Add(DownloadHandlerTexture.GetContent(uwr));
-                    }
+                if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    UnityEngine.Debug.LogError(webRequest.error);
+                    yield break;
                 }
-            }
+
+                var responseString = webRequest.downloadHandler.text;
+                var sendResponse = JsonUtility.FromJson<CopyImagesResponse>(responseString);
+
+                if (!sendResponse.is_success)
+                {
+                    UnityEngine.Debug.LogError("Response error.");
+                    yield break;
+                }
+
+                loadLocal = true;
 #else
-            var client = FindObjectOfType<ClientControl>();
-            var url = client.HttpUrl;
-
-            charaTextures_.Clear();
-            foreach (var eyebrow in eyebrowOptions_)
-            {
-                foreach (var eye in eyeOptions_)
+                charaTextures_.Clear();
+                foreach (var eyebrow in eyebrowOptions_)
                 {
-                    foreach (var mouth in mouthOptions_)
+                    foreach (var eye in eyeOptions_)
                     {
-                        using UnityWebRequest uwr = UnityWebRequestTexture.GetTexture($"{url}/get_image?id={eyebrow}_{eye}_{mouth}");
-
-                        yield return uwr.SendWebRequest();
-
-                        if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
+                        foreach (var mouth in mouthOptions_)
                         {
-                            UnityEngine.Debug.LogError(uwr.error);
-                            yield break;
-                        }
+                            using UnityWebRequest uwr = UnityWebRequestTexture.GetTexture($"{url}/get_image?id={eyebrow}_{eye}_{mouth}");
 
-                        charaTextures_.Add(DownloadHandlerTexture.GetContent(uwr));
+                            yield return uwr.SendWebRequest();
+
+                            if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
+                            {
+                                UnityEngine.Debug.LogError(uwr.error);
+                                yield break;
+                            }
+
+                            charaTextures_.Add(DownloadHandlerTexture.GetContent(uwr));
+
+                            File.WriteAllBytes($"{path}/{eyebrow}_{eye}_{mouth}.png", uwr.downloadHandler.data);
+                        }
+                    }
+                }
+
+                loadLocal = false;
+#endif
+            }
+
+            if (loadLocal)
+            {
+                charaTextures_.Clear();
+                foreach (var eyebrow in eyebrowOptions_)
+                {
+                    foreach (var eye in eyeOptions_)
+                    {
+                        foreach (var mouth in mouthOptions_)
+                        {
+                            using UnityWebRequest uwr = UnityWebRequestTexture.GetTexture($"file://{path}/{eyebrow}_{eye}_{mouth}.png");
+
+                            yield return uwr.SendWebRequest();
+
+                            if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
+                            {
+                                UnityEngine.Debug.LogError(uwr.error);
+                                yield break;
+                            }
+
+                            charaTextures_.Add(DownloadHandlerTexture.GetContent(uwr));
+                        }
                     }
                 }
             }
-#endif
 
             isFinishedStart_ = true;
 
             Change("normal", "normal");
+        }
+
+        public void ExecuteAnime4K()
+        {
+            if (PlayerPrefs.GetInt("mascotgirl_anime4K", 0) == 0)
+            {
+                StartCoroutine(startProcess());
+            }
         }
 
         void Update()
@@ -144,7 +204,18 @@ namespace MascotGirlClient
                 return;
             }
 
-            GetComponent<Renderer>().material.mainTexture = charaTextures_[eyebrowIndex_ * eyeOptions_.Length * mouthOptions_.Length + eyeIndex_ * mouthOptions_.Length + mouthIndex_];
+            int index = eyebrowIndex_ * eyeOptions_.Length * mouthOptions_.Length + eyeIndex_ * mouthOptions_.Length + mouthIndex_;
+            Texture targetTexture = charaTextures_[index];
+            if (targetTexture.height < Screen.height && PlayerPrefs.GetInt("mascotgirl_anime4K", 0) != 0)
+            {
+                var dstTexture = new RenderTexture(Screen.height * targetTexture.width / targetTexture.height, Screen.height, 0);
+                uAnime4K.ImageFilter.Upscale_A_HQ(targetTexture, dstTexture);
+                Destroy(targetTexture);
+                charaTextures_[index] = dstTexture;
+                targetTexture = dstTexture;
+            }
+
+            GetComponent<Renderer>().material.mainTexture = targetTexture;
         }
 
         public void OnLipSyncUpdate(LipSyncInfo info)

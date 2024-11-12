@@ -109,6 +109,14 @@ namespace MascotGirlClient
             LicenseParent.SetActive(false);
         }
 
+        public void OnChangedAnime4KToggle(bool val)
+        {
+            PlayerPrefs.SetInt("mascotgirl_anime4K", val ? 1 : 0);
+            PlayerPrefs.Save();
+
+            FindObjectOfType<CharaImage>().ExecuteAnime4K();
+        }
+
         void Update()
         {
             if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)

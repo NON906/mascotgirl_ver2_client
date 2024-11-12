@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "R5CT43NGWKH",
     "m_SelectedProcess": {
-        "deviceId": "R5CT43NGWKH",
-        "name": "com.MUMEI.MascotGirl_Client_ver2",
-        "processId": 30379,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,25 +11,43 @@
         {
             "deviceId": "R5CT43NGWKH",
             "name": "com.MUMEI.MascotGirl_Client_ver2",
-            "processId": 10024,
+            "processId": 13425,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT43NGWKH",
+            "name": "com.teslacoilsw.launcher",
+            "processId": 17231,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT43NGWKH",
+            "name": "com.MUMEI.MascotGirl_Client_ver2",
+            "processId": 19794,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT43NGWKH",
+            "name": "com.MUMEI.MascotGirl_Client_ver2",
+            "processId": 23140,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CT43NGWKH",
+            "name": "com.teslacoilsw.launcher",
+            "processId": 23668,
             "exited": false
         },
         {
             "deviceId": "R5CT43NGWKH",
             "name": "com.MUMEI.MascotGirl_Client_ver2",
-            "processId": 11244,
+            "processId": 26817,
             "exited": false
         },
         {
             "deviceId": "R5CT43NGWKH",
             "name": "com.MUMEI.MascotGirl_Client_ver2",
-            "processId": 14720,
-            "exited": false
-        },
-        {
-            "deviceId": "R5CT43NGWKH",
-            "name": "com.MUMEI.MascotGirl_Client_ver2",
-            "processId": 30379,
+            "processId": 28669,
             "exited": false
         }
     ],
@@ -121,5 +139,5 @@
             "exited": false
         }
     },
-    "m_AutoScroll": 0
+    "m_AutoScroll": 2
 }

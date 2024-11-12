@@ -1260,7 +1260,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &239674842
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1279,7 +1279,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.5, y: -65}
+  m_AnchoredPosition: {x: 259.5, y: -124.9981}
   m_SizeDelta: {x: 499, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &239674843
@@ -1329,7 +1329,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2115763746}
         m_TargetAssemblyTypeName: MascotGirlClient.ClientControlUI, Assembly-CSharp
         m_MethodName: OnChangedAnime4KToggle
         m_Mode: 0
@@ -1687,7 +1687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.5, y: -114.9981}
+  m_AnchoredPosition: {x: 259.5, y: -164.99811}
   m_SizeDelta: {x: 499, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297501512
@@ -2411,7 +2411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.4842, y: -304.99527}
+  m_AnchoredPosition: {x: 259.4842, y: -354.99527}
   m_SizeDelta: {x: 499, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &392740333
@@ -3140,7 +3140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.5, y: -239.9962}
+  m_AnchoredPosition: {x: 259.5, y: -289.99622}
   m_SizeDelta: {x: 499, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &477460278
@@ -3829,10 +3829,10 @@ RectTransform:
   - {fileID: 164002181}
   - {fileID: 613898260}
   - {fileID: 359621943}
-  - {fileID: 239674842}
   - {fileID: 1795449637}
   - {fileID: 1380072261}
   - {fileID: 488345580}
+  - {fileID: 239674842}
   - {fileID: 297501511}
   - {fileID: 968113589}
   - {fileID: 748726421}
@@ -3844,7 +3844,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.000005722046, y: -0.00031612482}
-  m_SizeDelta: {x: 0, y: 359.9943}
+  m_SizeDelta: {x: 0, y: 409.9943}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &601934330
 MonoBehaviour:
@@ -4585,7 +4585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.4842, y: -174.99716}
+  m_AnchoredPosition: {x: 259.4842, y: -224.99716}
   m_SizeDelta: {x: 499, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &748726422
@@ -5282,7 +5282,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.5, y: -144.99811}
+  m_AnchoredPosition: {x: 259.5, y: -194.99811}
   m_SizeDelta: {x: 499, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &968113590
@@ -5617,7 +5617,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u62E1\u5927\u6642\u306BAnime4K\u3092\u4F7F\u7528\u3059\u308B"
+  m_text: "\u2191\u62E1\u5927\u6642\u306BAnime4K\u3092\u4F7F\u7528\u3059\u308B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 12c7feab686763542a155b39cd3319d7, type: 2}
   m_sharedMaterial: {fileID: 1950033570100643715, guid: 12c7feab686763542a155b39cd3319d7, type: 2}
@@ -5731,7 +5731,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 259.5, y: -334.99432}
+  m_AnchoredPosition: {x: 259.5, y: -384.99432}
   m_SizeDelta: {x: 499, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1011874133
