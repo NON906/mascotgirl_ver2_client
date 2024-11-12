@@ -128,62 +128,66 @@ namespace MascotGirlClient
             }
             messages_.Add(new SendMessageContent { role = "user", content = message });
 
-            var request = new SendMessageRequest();
-            request.messages = messages_;
-
-            var jsonRequest = JsonUtility.ToJson(request);
-
-            using var webRequest = new UnityWebRequest(url + "/chat_hermes_infer", "POST")
-            {
-                uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonRequest)),
-                downloadHandler = new DownloadHandlerBuffer(),
-            };
-
-            webRequest.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
-
-            yield return webRequest.SendWebRequest();
-
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-            {
-                UnityEngine.Debug.LogError(webRequest.error);
-                yield break;
-            }
-
-            var responseString = webRequest.downloadHandler.text;
-            var sendResponse = JsonUtility.FromJson<SendMessageResponse>(responseString);
-
-            if (!sendResponse.is_success)
-            {
-                UnityEngine.Debug.LogError("Response error.");
-                yield break;
-            }
-
             RecvMessageResponse response = null;
             do
             {
-                using var webRecvRequest = new UnityWebRequest(url + "/get_chat_hermes_infer", "GET")
+                var request = new SendMessageRequest();
+                request.messages = messages_;
+
+                var jsonRequest = JsonUtility.ToJson(request);
+
+                using var webRequest = new UnityWebRequest(url + "/chat_hermes_infer", "POST")
                 {
+                    uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonRequest)),
                     downloadHandler = new DownloadHandlerBuffer(),
                 };
 
-                yield return webRecvRequest.SendWebRequest();
+                webRequest.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
 
-                if (webRecvRequest.result == UnityWebRequest.Result.ConnectionError || webRecvRequest.result == UnityWebRequest.Result.ProtocolError)
+                yield return webRequest.SendWebRequest();
+
+                if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
                 {
-                    UnityEngine.Debug.LogError(webRecvRequest.error);
+                    UnityEngine.Debug.LogError(webRequest.error);
                     yield break;
                 }
 
-                var recvResponseString = webRecvRequest.downloadHandler.text;
-                response = JsonUtility.FromJson<RecvMessageResponse>(recvResponseString);
+                var responseString = webRequest.downloadHandler.text;
+                var sendResponse = JsonUtility.FromJson<SendMessageResponse>(responseString);
 
-                if (!response.is_finished)
+                if (!sendResponse.is_success)
                 {
-                    yield return new WaitForSecondsRealtime(0.5f);
+                    UnityEngine.Debug.LogError("Response error.");
+                    yield break;
                 }
-                //UnityEngine.Debug.Log(response.message);
 
-            } while (!response.is_finished);
+                do
+                {
+                    using var webRecvRequest = new UnityWebRequest(url + "/get_chat_hermes_infer", "GET")
+                    {
+                        downloadHandler = new DownloadHandlerBuffer(),
+                    };
+
+                    yield return webRecvRequest.SendWebRequest();
+
+                    if (webRecvRequest.result == UnityWebRequest.Result.ConnectionError || webRecvRequest.result == UnityWebRequest.Result.ProtocolError)
+                    {
+                        UnityEngine.Debug.LogError(webRecvRequest.error);
+                        yield break;
+                    }
+
+                    var recvResponseString = webRecvRequest.downloadHandler.text;
+                    response = JsonUtility.FromJson<RecvMessageResponse>(recvResponseString);
+
+                    if (!response.is_finished)
+                    {
+                        yield return new WaitForSecondsRealtime(0.5f);
+                    }
+                    //UnityEngine.Debug.Log(response.message);
+
+                } while (!response.is_finished);
+
+            } while (string.IsNullOrEmpty(response.message));
 
             messages_.Add(new SendMessageContent { role = "assistant", content = response.full_message });
 
