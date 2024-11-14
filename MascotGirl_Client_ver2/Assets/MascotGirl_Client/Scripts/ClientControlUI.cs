@@ -20,6 +20,9 @@ namespace MascotGirlClient
             public int llm_api = 0;
             public string llm_repo_name = "";
             public string llm_file_name = "";
+            public string llm_api_key = "";
+            public string llm_model_name = "";
+            public int llm_harm_block = 0;
         }
 
         public GameObject ControlParent;
@@ -34,6 +37,9 @@ namespace MascotGirlClient
         public TMP_Dropdown LlmApiDropdown;
         public TMP_InputField LlmRepoNameInputField;
         public TMP_InputField LlmFileNameInputField;
+        public TMP_InputField LlmApiKeyInputField;
+        public TMP_InputField LlmModelNameInputField;
+        public TMP_Dropdown LlmHarmBlockDropdown;
 
         List<Selectable> settingUIs_ = new List<Selectable>();
 
@@ -83,11 +89,22 @@ namespace MascotGirlClient
             var recvResponseString = webRecvRequest.downloadHandler.text;
             var response = JsonUtility.FromJson<Settings>(recvResponseString);
 
-            LlmApiDropdown.value = response.llm_api;
+            LlmApiDropdown.SetValueWithoutNotify(response.llm_api);
             LlmRepoNameInputField.text = response.llm_repo_name;
-            LlmRepoNameInputField.gameObject.SetActive(LlmApiDropdown.value == 0);
             LlmFileNameInputField.text = response.llm_file_name;
+            LlmApiKeyInputField.text = response.llm_api_key;
+            LlmModelNameInputField.text = response.llm_model_name;
+            LlmHarmBlockDropdown.value = response.llm_harm_block;
+            changeLlmApi();
+        }
+
+        void changeLlmApi()
+        {
+            LlmRepoNameInputField.gameObject.SetActive(LlmApiDropdown.value == 0);
             LlmFileNameInputField.gameObject.SetActive(LlmApiDropdown.value == 0);
+            LlmApiKeyInputField.gameObject.SetActive(LlmApiDropdown.value != 0);
+            LlmModelNameInputField.gameObject.SetActive(LlmApiDropdown.value != 0);
+            LlmHarmBlockDropdown.gameObject.SetActive(LlmApiDropdown.value == 2);
         }
 
         IEnumerator setSettingCoroutine(string json)
@@ -255,6 +272,24 @@ namespace MascotGirlClient
             FindObjectOfType<CharaImage>().ExecuteAnime4K();
         }
 
+        public void OnChangeLlmApiDropdown(int val)
+        {
+            changeLlmApi();
+            LlmApiKeyInputField.text = "";
+            if (LlmApiDropdown.value == 1)
+            {
+                LlmModelNameInputField.text = "gpt-4o-mini";
+            }
+            else
+            {
+                LlmModelNameInputField.text = "gemini-1.5-flash";
+            }
+
+            SetSetting("llm_api", val);
+            SetSetting("llm_api_key", "");
+            SetSetting("llm_model_name", LlmModelNameInputField.text);
+        }
+
         public void OnChangeLlmRepoNameInputField(string val)
         {
             SetSetting("llm_repo_name", val);
@@ -263,6 +298,21 @@ namespace MascotGirlClient
         public void OnChangeLlmFileNameInputField(string val)
         {
             SetSetting("llm_file_name", val);
+        }
+
+        public void OnChangeLlmApiKeyInputField(string val)
+        {
+            SetSetting("llm_api_key", val);
+        }
+
+        public void OnChangeLlmModelNameInputField(string val)
+        {
+            SetSetting("llm_model_name", val);
+        }
+
+        public void OnChangeLlmHarmBlockDropdown(int val)
+        {
+            SetSetting("llm_harm_block", val);
         }
 
         void Update()
