@@ -39,7 +39,7 @@ namespace MascotGirlClient
             public string eyebrow;
             public string eyes;
             public string message;
-            public string full_message;
+            public SendMessageContent[] history;
             public bool is_finished;
         }
 
@@ -126,7 +126,15 @@ namespace MascotGirlClient
             {
                 messages_.Add(new SendMessageContent { role = "system", content = SystemMessage });
             }
-            messages_.Add(new SendMessageContent { role = "user", content = message });
+
+            if (messages_.Count > 0 && messages_[messages_.Count - 1].role == "tool" && messages_[messages_.Count - 1].content == "<Š®—¹>")
+            {
+                messages_[messages_.Count - 1].content = "user‚Ì”­Œ¾:\n" + message;
+            }
+            else
+            {
+                messages_.Add(new SendMessageContent { role = "user", content = message });
+            }
 
             RecvMessageResponse response = null;
             do
@@ -189,7 +197,7 @@ namespace MascotGirlClient
 
             } while (string.IsNullOrEmpty(response.message));
 
-            messages_.Add(new SendMessageContent { role = "assistant", content = response.full_message });
+            messages_.AddRange(response.history);
 
             var voiceManager = FindObjectOfType<VoiceManager>();
             voiceManager.Clear();
