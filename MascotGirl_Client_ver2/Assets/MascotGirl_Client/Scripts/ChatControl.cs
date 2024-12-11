@@ -19,6 +19,7 @@ namespace MascotGirlClient
         {
             public string role;
             public string content;
+            public string tool_calls;
         }
 
         [Serializable]
