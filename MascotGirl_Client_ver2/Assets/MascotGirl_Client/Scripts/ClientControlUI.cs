@@ -23,6 +23,8 @@ namespace MascotGirlClient
             public string llm_api_key = "";
             public string llm_model_name = "";
             public int llm_harm_block = 0;
+            public int voice_api = 0;
+            public string voice_model_dir = "";
         }
 
         public GameObject ControlParent;
@@ -40,6 +42,10 @@ namespace MascotGirlClient
         public TMP_InputField LlmApiKeyInputField;
         public TMP_InputField LlmModelNameInputField;
         public TMP_Dropdown LlmHarmBlockDropdown;
+        public TMP_Dropdown VoiceApiDropdown;
+        public Button UploadReferenceVoiceButton;
+        public TMP_InputField VoiceModelDirInputField;
+        public Button VoiceModelDirButton;
 
         List<Selectable> settingUIs_ = new List<Selectable>();
 
@@ -96,6 +102,15 @@ namespace MascotGirlClient
             LlmModelNameInputField.text = response.llm_model_name;
             LlmHarmBlockDropdown.value = response.llm_harm_block;
             changeLlmApi();
+            VoiceApiDropdown.value = response.voice_api;
+            VoiceModelDirInputField.text = response.voice_model_dir;
+            UploadReferenceVoiceButton.gameObject.SetActive(response.voice_api == 0);
+            VoiceModelDirInputField.gameObject.SetActive(response.voice_api == 1);
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            VoiceModelDirButton.gameObject.SetActive(response.voice_api == 1);
+#else
+            VoiceModelDirButton.gameObject.SetActive(false);
+#endif
         }
 
         void changeLlmApi()
@@ -313,6 +328,40 @@ namespace MascotGirlClient
         public void OnChangeLlmHarmBlockDropdown(int val)
         {
             SetSetting("llm_harm_block", val);
+        }
+
+        public void OnChangeVoiceApiDropdown(int val)
+        {
+            SetSetting("voice_api", val);
+            UploadReferenceVoiceButton.gameObject.SetActive(val == 0);
+            VoiceModelDirInputField.gameObject.SetActive(val == 1);
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            VoiceModelDirButton.gameObject.SetActive(val == 1);
+#else
+            VoiceModelDirButton.gameObject.SetActive(false);
+#endif
+        }
+
+        public void OnChangeVoiceModelDirsInputField(string val)
+        {
+            SetSetting("voice_model_dir", val);
+        }
+
+        public void OnClickVoiceModelDirsButton()
+        {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+
+            fbd.Description = "フォルダを指定してください。";
+            fbd.ShowNewFolderButton = false;
+            fbd.SelectedPath = VoiceModelDirInputField.text;
+
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                VoiceModelDirInputField.text = fbd.SelectedPath;
+                OnChangeVoiceModelDirsInputField(fbd.SelectedPath);
+            }
+#endif
         }
 
         void Update()
