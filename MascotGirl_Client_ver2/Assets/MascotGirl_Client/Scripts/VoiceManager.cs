@@ -54,8 +54,8 @@ namespace MascotGirlClient
             var audioType = AudioType.WAV;
             request.format_ext = "wav";
 #else
-            var audioType = AudioType.MPEG;
-            request.format_ext = "mp3";
+            var audioType = AudioType.OGGVORBIS;
+            request.format_ext = "ogg";
 #endif
 
             var client = FindObjectOfType<ClientControl>();

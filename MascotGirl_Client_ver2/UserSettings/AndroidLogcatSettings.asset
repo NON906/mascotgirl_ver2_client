@@ -3,7 +3,7 @@
     "m_SelectedProcess": {
         "deviceId": "R5CT43NGWKH",
         "name": "com.MUMEI.MascotGirl_Client_ver2",
-        "processId": 28017,
+        "processId": 23767,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -66,6 +66,18 @@
             "deviceId": "R5CT43NGWKH",
             "name": "com.MUMEI.MascotGirl_Client_ver2",
             "processId": 28017,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CT43NGWKH",
+            "name": "com.MUMEI.MascotGirl_Client_ver2",
+            "processId": 20881,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CT43NGWKH",
+            "name": "com.MUMEI.MascotGirl_Client_ver2",
+            "processId": 23767,
             "exited": false
         }
     ],
@@ -145,6 +157,10 @@
             "D:\\Python\\mascotgirl\\Projects\\mascotgirl_ver2_client\\MascotGirl_Client_ver2",
             "D:\\Python\\mascotgirl\\Projects\\mascotgirl_ver2_client\\MascotGirl_Client_ver2"
         ]
+    },
+    "m_QueryLayoutSettings": {
+        "LastLayoutSaveLocation": "",
+        "LastScreenshotSaveLocation": ""
     },
     "m_InputSettings": {
         "ShiftModifier": false,
