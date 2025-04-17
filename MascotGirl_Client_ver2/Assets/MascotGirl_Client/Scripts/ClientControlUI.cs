@@ -117,7 +117,7 @@ namespace MascotGirlClient
         {
             LlmRepoNameInputField.gameObject.SetActive(LlmApiDropdown.value == 0);
             LlmFileNameInputField.gameObject.SetActive(LlmApiDropdown.value == 0);
-            LlmApiKeyInputField.gameObject.SetActive(LlmApiDropdown.value != 0);
+            LlmApiKeyInputField.gameObject.SetActive(LlmApiDropdown.value == 1 || LlmApiDropdown.value == 2);
             LlmModelNameInputField.gameObject.SetActive(LlmApiDropdown.value != 0);
             LlmHarmBlockDropdown.gameObject.SetActive(LlmApiDropdown.value == 2);
         }
@@ -295,9 +295,13 @@ namespace MascotGirlClient
             {
                 LlmModelNameInputField.text = "gpt-4o-mini";
             }
-            else
+            else if (LlmApiDropdown.value == 2)
             {
                 LlmModelNameInputField.text = "gemini-1.5-flash";
+            }
+            else if (LlmApiDropdown.value == 3)
+            {
+                LlmModelNameInputField.text = "";
             }
 
             SetSetting("llm_api", val);
